@@ -1,0 +1,2671 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Entrenamiento Personal</title>
+    <!-- Tailwind CSS para los estilos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React y ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel para compilar JSX en el navegador -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Estilos personalizados simples -->
+    <style>
+        body {
+            background-color: #f3f4f6;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .exercise-card {
+            transition: transform 0.2s;
+        }
+        .exercise-card:hover {
+            transform: translateY(-2px);
+        }
+        /* Ocultar barra de scroll en las pestañas pero permitir scroll */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+const routineData = [
+  {
+    id: "day1",
+    dayName: "Día 1: Cuerpo Completo Funcional",
+    notes: "Pesos recomendados: Burpees y tijeras (10-15 lbs) | Sentadillas y press (12-20 lbs) | Puente de glúteo (50-85 lbs) | Step (10-15 lbs)",
+    circuits: [
+      {
+        id: "d1-c1",
+        title: "Circuito 1",
+        rounds: 3,
+        exercises: [
+          {
+            id: "ex-lateral-burpee",
+            name: "Lateral + Frontal a Burpee",
+            description: "Elevación lateral para hombros, llevar al frente y luego bajar tipo burpees.",
+            reps: "12 reps",
+            weight: "10 - 15 lbs",
+            images: ["assets/ex1_lateral_burpee_1788729627646.jpg"]
+          },
+          {
+            id: "ex-lunge-hammer",
+            name: "Lunge con Biceps Martillo",
+            description: "Lunge (tijera) haciendo curl de bíceps tipo martillo simultáneamente.",
+            reps: "12 reps",
+            weight: "10 - 15 lbs",
+            images: ["assets/ex2_lunge_hammer_1788729636126.jpg"]
+          },
+          {
+            id: "ex-bicep-frontal",
+            name: "Bíceps Frontal",
+            description: "Curl de bíceps tradicional al frente.",
+            reps: "12 reps",
+            weight: "Moderado",
+            images: ["assets/ex3_bicep_curl_1788729645587.jpg"]
+          },
+          {
+            id: "ex-lunge-sides",
+            name: "Lunge con Pesas a los Lados",
+            description: "Lunge estático o caminando con pesas sostenidas a los lados del cuerpo.",
+            reps: "12 reps",
+            weight: "10 - 15 lbs",
+            images: ["assets/ex4_lunge_sides_1788729654926.jpg"]
+          },
+          {
+            id: "ex-squat-press",
+            name: "Sentadilla a Press de Hombros",
+            description: "Sentadillas con los brazos al frente; al subir, giras los brazos para hacer un press de hombros.",
+            reps: "12 reps",
+            weight: "12 - 20 lbs",
+            images: ["assets/ex5_squat_press_1788729664753.jpg"]
+          },
+          {
+            id: "ex-sumo-squat",
+            name: "Sentadilla Lateral (Tipo Sumo)",
+            description: "Caminando hacia los lados: 3 pasos hacia un lado y 3 hacia el otro, sosteniendo la pesa abajo (estilo sumo). Repetir 3 veces hacia cada lado.",
+            reps: "3 idas y vueltas",
+            weight: "Pesado",
+            images: ["assets/ex6_sumo_squat_1788729674538.jpg"]
+          },
+          {
+            id: "ex-glute-bridge",
+            name: "Puente de Glúteo con Banda",
+            description: "Puente con banda en las piernas y pesa pesada en la cadera. Abrir las rodillas al subir.",
+            reps: "12 reps",
+            weight: "50 - 85 lbs",
+            images: ["assets/ex7_glute_bridge_1788729683771.jpg"]
+          },
+          {
+            id: "ex-step-lunge",
+            name: "Lunge en Step a lo Alto",
+            description: "Lunge subiendo una pierna en un cajón, step o superficie alta.",
+            reps: "12 reps",
+            weight: "10 - 15 lbs",
+            images: ["assets/ex8_step_lunge_1788729721203.jpg"]
+          }
+        ]
+      },
+      {
+        id: "d1-c2",
+        title: "Circuito 2",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-step-lunge-press",
+            name: "Lunge en Step con Press Cerrado",
+            description: "Haciendo hombros en simultáneo: press cerrado para hombros bajando los brazos al bajar en el lunge y subiendo los brazos al subir.",
+            reps: "12 reps",
+            weight: "10 - 15 lbs",
+            images: ["assets/ex9_step_lunge_press_1788729730849.jpg"]
+          },
+          {
+            id: "ex-step-lunge-fast",
+            name: "Lunge Rápido en Step",
+            description: "Lunge en el step rápido sin pesas.",
+            reps: "12 reps",
+            weight: "Sin peso",
+            images: ["assets/ex10_step_lunge_fast_1788729739252.jpg"]
+          },
+          {
+            id: "ex-side-leg-raise",
+            name: "Elevación de Pierna Lateral",
+            description: "Acostada de lado, subir y bajar la pierna con una liga (banda de resistencia) en los tobillos.",
+            reps: "12 reps por lado",
+            weight: "Liga de resistencia",
+            images: ["assets/ex11_side_leg_raise_1788729748136.jpg"]
+          }
+        ]
+      },
+      {
+        id: "d1-c3",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-leg-press",
+            name: "Prensa (Pies arriba y cerrados)",
+            description: "Prensa de piernas colocando los pies juntos y en la parte alta de la plataforma para enfocar en glúteos e isquiotibiales.",
+            reps: "12 reps",
+            weight: "Pesado",
+            images: ["assets/ex12_leg_press_1788729757048.jpg"]
+          },
+          {
+            id: "ex-cable-lateral",
+            name: "Polea Lateral para Glúteos",
+            description: "Elevación de pierna lateral en polea baja para trabajar el glúteo.",
+            reps: "12 reps por lado",
+            weight: "Moderado",
+            images: ["assets/ex13_cable_lateral_1788729767459.jpg"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "day2",
+    dayName: "Día 2: Tren Superior y Abdomen",
+    notes: "Pesos recomendados: Bíceps (10 lbs) | Resto de ejercicios con mancuernas (8 - 12 lbs max)",
+    circuits: [
+      {
+        id: "d2-c1",
+        title: "Circuito 1",
+        rounds: 3,
+        exercises: [
+          {
+            id: "ex-triceps-band-warmup",
+            name: "Calentamiento Tríceps con Cuerda",
+            description: "Calentamiento de tríceps con cuerda elástica (liga), jalando por detrás de la cabeza.",
+            reps: "12 reps",
+            weight: "Banda elástica",
+            images: ["assets/ex_triceps_band_warmup.jpg"]
+          },
+          {
+            id: "ex-skullcrusher-db",
+            name: "Tríceps Acostada con Pesas",
+            description: "Acostada boca arriba (en banco o piso), extensión de tríceps con mancuernas llevando el peso hacia atrás y extendiendo arriba.",
+            reps: "12 reps",
+            weight: "8 - 12 lbs",
+            images: ["assets/ex_skullcrusher_db.jpg"]
+          },
+          {
+            id: "ex-pushup-knee-tuck",
+            name: "Flexiones + Abdominal Rodillas",
+            description: "Flexiones (push-ups) bajando completo. Al subir, flexionas las rodillas hacia el pecho haciendo un crunch abdominal.",
+            reps: "12 reps",
+            weight: "Corporal",
+            images: ["assets/ex_pushup_knee_tuck.jpg"]
+          },
+          {
+            id: "ex-plank",
+            name: "Plancha (Plank)",
+            description: "Mantener la posición de plancha isométrica apretando fuerte el abdomen.",
+            reps: "Al fallo / 45-60s",
+            weight: "Corporal",
+            images: ["assets/ex_plank.jpg"]
+          }
+        ]
+      },
+      {
+        id: "d2-c2",
+        title: "Circuito 2",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-deadbug-fly",
+            name: "Abdomen Tijera + Apertura de Brazos",
+            description: "Acostada, subir y bajar primero una pierna y luego la otra (tijeras). Al mismo tiempo, abrir y cerrar los brazos con pesas (aperturas de pecho).",
+            reps: "12 reps",
+            weight: "8 - 12 lbs",
+            images: ["assets/ex_deadbug_fly.jpg"]
+          },
+          {
+            id: "ex-ab-pass-under",
+            name: "Abdomen Pasando Pesa Bajo Pierna",
+            description: "Acostada boca arriba, elevando el torso ligeramente para pasar una mancuerna por debajo de cada pierna alternando (tipo bicicleta).",
+            reps: "12 reps",
+            weight: "8 - 12 lbs",
+            images: ["assets/ex_ab_pass_under.jpg"]
+          },
+          {
+            id: "ex-floor-press-leg-raise",
+            name: "Press de Pecho + Elevación de Piernas",
+            description: "Press de pecho acostada en el suelo y simultáneamente subiendo y bajando las piernas extendidas para trabajar el abdomen.",
+            reps: "12 reps",
+            weight: "8 - 12 lbs",
+            images: ["assets/ex_floor_press_leg_raise.jpg"]
+          }
+        ]
+      },
+      {
+        id: "d2-c3",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-pec-deck",
+            name: "Aperturas en Máquina (Pec Deck)",
+            description: "Sentada en la máquina de pecho, abrir y cerrar los brazos en el eje horizontal contrayendo el pecho.",
+            reps: "12 reps",
+            weight: "Moderado",
+            images: ["assets/ex_pec_deck.jpg"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "day3",
+    dayName: "Día 3: Pierna y Glúteo",
+    notes: "Pesos: Squats (Mancuerna 35/40 lbs) | Sidelunge (Mancuerna 25/30 lbs) | Barra (60 lbs)",
+    circuits: [
+      {
+        id: "d3-c1",
+        title: "Circuito 1",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-sumo-squat-basic",
+            name: "Sentadilla Sumo",
+            description: "Sentadilla con las piernas separadas más allá del ancho de los hombros y puntas de los pies hacia afuera.",
+            reps: "12 reps",
+            weight: "35 - 40 lbs",
+            images: ["assets/ex6_sumo_squat_1788729674538.jpg"]
+          },
+          {
+            id: "ex-sumo-squat-jump",
+            name: "Sentadilla Sumo con Salto",
+            description: "Sentadilla sumo explosiva dando un salto al subir.",
+            reps: "12 reps",
+            weight: "Corporal",
+            images: ["assets/ex_sumo_squat_jump.jpg"]
+          },
+          {
+            id: "ex-side-lunge-neck-weight",
+            name: "Sentadilla Lateral Alternada",
+            description: "Pesa en la nuca, flexionando una pierna y estirando la otra, alternando lados (Cossack Lunge).",
+            reps: "12 reps por lado",
+            weight: "25 - 30 lbs",
+            images: ["assets/ex_side_lunge_neck_weight.jpg"]
+          }
+        ]
+      },
+      {
+        id: "d3-c2",
+        title: "Circuito 2",
+        rounds: 5,
+        exercises: [
+          {
+            id: "ex-lunge-static",
+            name: "Lunge Estático con Pesas",
+            description: "Lunge (tijera) estático subiendo y bajando en el mismo sitio con pesas a los lados.",
+            reps: "12 reps por pierna",
+            weight: "25 - 30 lbs",
+            images: ["assets/ex_lunge_static.jpg"]
+          },
+          {
+            id: "ex-lunge-back-kick",
+            name: "Lunge con Patada hacia Atrás",
+            description: "Lunge hacia atrás (reversa) y al subir, dar una patada controlada hacia atrás con la misma pierna apretando el glúteo.",
+            reps: "12 reps por pierna",
+            weight: "25 - 30 lbs",
+            images: ["assets/ex_lunge_back_kick.jpg"]
+          },
+          {
+            id: "ex-glute-bridge",
+            name: "Puente de Glúteos",
+            description: "Elevación de pelvis acostada boca arriba, apretando los glúteos arriba.",
+            reps: "12 reps",
+            weight: "35 - 40 lbs",
+            images: ["assets/ex7_glute_bridge_1788729683771.jpg"]
+          },
+          {
+            id: "ex-squat-in-out-bar",
+            name: "Sentadilla Abierta y Cerrada",
+            description: "Con barra en los hombros, hacer una sentadilla abierta, luego cerrada, abierta y luego cerrada.",
+            reps: "12 reps",
+            weight: "60 lbs (Barra)",
+            images: ["assets/ex_squat_in_out_bar.jpg"]
+          }
+        ]
+      },
+      {
+        id: "d3-c3",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-leg-extension",
+            name: "Extensión de Cuádriceps (Leg Extension)",
+            description: "Sentada en la máquina, extender las piernas hacia arriba para trabajar los cuádriceps.",
+            reps: "12 reps",
+            weight: "Pesado",
+            images: ["assets/ex_leg_extension.jpg"]
+          },
+          {
+            id: "ex-adductor-machine",
+            name: "Aductor en Máquina",
+            description: "Sentada en la máquina de aductores, cerrar las piernas venciendo la resistencia.",
+            reps: "12 reps",
+            weight: "Pesado",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "day4",
+    dayName: "Día 4: Descanso",
+    notes: "Día de recuperación. ¡Descansa y permite que tus músculos se recuperen!",
+    circuits: []
+  },
+  {
+    id: "day5",
+    dayName: "Día 5: Tren Superior y Core",
+    notes: "Pesos recomendados: Mancuernas (10 - 12 lbs) | Barra (20 lbs)",
+    circuits: [
+      {
+        id: "d5-c1",
+        title: "Circuito 1",
+        rounds: 3,
+        exercises: [
+          {
+            id: "ex-pushup-curl-press",
+            name: "Flexión + Bíceps + Press de Hombro",
+            description: "Bajar a flexión completa. Al subir, ponerse de pie (o de rodillas), hacer curl de bíceps frontal y finalizar subiendo a press de hombro cerrado.",
+            reps: "Al fallo / 10-12 reps",
+            weight: "10 - 12 lbs",
+            images: []
+          },
+          {
+            id: "ex-walkout-ankle-tap",
+            name: "Caminata de Manos + Toque de Tobillos",
+            description: "De pie, bajar caminando con las manos hasta plancha. Al estar paralela al suelo, elevar cadera y tocar el tobillo con la mano contraria (ambos lados) para abdomen. Volver a subir caminando hacia atrás.",
+            reps: "12 reps",
+            weight: "Corporal",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "d5-c2",
+        title: "Circuito 2",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-seated-shoulder-press",
+            name: "Press de Hombros Abierto Sentada",
+            description: "Sentada, hacer press de hombros abriendo bien los codos hacia los lados.",
+            reps: "12 reps",
+            weight: "10 - 12 lbs",
+            images: []
+          },
+          {
+            id: "ex-seated-reverse-fly",
+            name: "Vuelos Inversos Sentada (Espalda)",
+            description: "Sentada e inclinando el torso hacia adelante, abrir y cerrar los brazos (pájaros) para trabajar la espalda posterior.",
+            reps: "12 reps",
+            weight: "10 - 12 lbs",
+            images: []
+          },
+          {
+            id: "ex-bent-over-row-underhand",
+            name: "Remo Supino Parada",
+            description: "De pie, con el torso flexionado hacia adelante. Hacer remo llevando los codos hacia atrás y con las palmas mirando hacia arriba.",
+            reps: "12 reps",
+            weight: "10 - 12 lbs / Barra 20 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "d5-c3",
+        title: "Circuito 3",
+        rounds: 3,
+        exercises: [
+          {
+            id: "ex-cross-knee-touch",
+            name: "Toque Cruzado a Rodilla",
+            description: "Acostada boca arriba con rodillas flexionadas, subir tocando con una mano la rodilla contraria, alternando de lado.",
+            reps: "12 reps por lado",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-ball-leg-raise",
+            name: "Elevación de Piernas con Fitball",
+            description: "Acostada con una bola de ejercicio entre las piernas. Bajar y subir las piernas con el cuello arriba y abdomen contraído.",
+            reps: "12 reps",
+            weight: "Balón",
+            images: []
+          },
+          {
+            id: "ex-ball-crunch",
+            name: "Crunch Abdominal con Fitball",
+            description: "Acostada con las piernas en alto sosteniendo la bola entre ellas, realizar crunch abdominal elevando los hombros del suelo.",
+            reps: "12 reps",
+            weight: "Balón",
+            images: []
+          },
+          {
+            id: "ex-bicycle-crunch",
+            name: "Bicicleta / Tijeras Cruzadas",
+            description: "Acostada, tijeras con las piernas. Manos en la cabeza llevando los codos hacia la rodilla contraria.",
+            reps: "12 reps por lado",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-ab-pass-under",
+            name: "Abdomen Pasando Pesa Bajo Pierna",
+            description: "Acostada boca arriba, elevando el torso ligeramente para pasar una mancuerna por debajo de cada pierna alternando.",
+            reps: "12 reps",
+            weight: "10 - 12 lbs",
+            images: ["assets/ex_ab_pass_under.jpg"]
+          }
+        ]
+      },
+      {
+        id: "d5-c4",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-lat-pulldown-close-grip",
+            name: "Jalón de Polea al Pecho (Espalda)",
+            description: "En la máquina de jalón (espalda sentado), usar la barra larga pero con agarre cerrado. Jalar hacia el pecho contrayendo la espalda.",
+            reps: "12 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          },
+          {
+            id: "ex-seated-machine-row",
+            name: "Remo en Máquina",
+            description: "En la máquina de remo sentado, jalar el peso hacia el torso manteniendo la espalda recta.",
+            reps: "12 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "day6",
+    dayName: "Día 6: Pierna (Femorales y Glúteo)",
+    notes: "Pesos: Mancuerna 80 lbs (Sumo) | Mancuernas 20-25 lbs | Hip Thrust: 2 Discos de 45 lbs",
+    circuits: [
+      {
+        id: "d6-c1",
+        title: "Circuito 1",
+        rounds: 5,
+        exercises: [
+          {
+            id: "ex-lunge-step-one-weight",
+            name: "Lunge con Pierna en Step",
+            description: "Lunge apoyando una pierna en el step, sosteniendo una pesa (estilo sentadilla búlgara).",
+            reps: "12 reps por pierna",
+            weight: "20 - 25 lbs",
+            images: []
+          },
+          {
+            id: "ex-sumo-squat-heavy",
+            name: "Sentadilla Sumo",
+            description: "Sentadilla con piernas separadas y puntas hacia afuera, bajando profundo.",
+            reps: "12 reps",
+            weight: "80 lbs",
+            images: []
+          },
+          {
+            id: "ex-sumo-squat-jump",
+            name: "Sentadilla Sumo con Salto",
+            description: "Sentadilla sumo explosiva dando un salto al subir.",
+            reps: "12 reps",
+            weight: "Corporal",
+            images: ["assets/ex_sumo_squat_jump.jpg"]
+          },
+          {
+            id: "ex-rdl-step-one-leg",
+            name: "Peso Muerto a una Pierna en Step",
+            description: "Peso muerto rumano colocando el pie de apoyo trasero sobre el step para mayor rango.",
+            reps: "12 reps por pierna",
+            weight: "20 - 25 lbs",
+            images: []
+          },
+          {
+            id: "ex-rdl-dumbbells",
+            name: "Peso Muerto con Dos Pesas",
+            description: "Peso muerto rumano clásico de pie, bajando con ambas pesas y manteniendo la espalda recta.",
+            reps: "12 reps",
+            weight: "20 - 25 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "d6-c2",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-machine-hip-thrust",
+            name: "Hip Thrust en Máquina",
+            description: "Empuje de cadera (Hip Thrust) en máquina, apretando fuerte el glúteo arriba.",
+            reps: "12 reps",
+            weight: "2 Discos de 45 lbs",
+            images: []
+          },
+          {
+            id: "ex-lying-leg-curl-single",
+            name: "Femoral Unilateral Acostada",
+            description: "Curl femoral (isquiotibiales) acostada boca abajo en la máquina, trabajando una pierna a la vez.",
+            reps: "12 reps por pierna",
+            weight: "Moderado / Pesado",
+            images: []
+          },
+          {
+            id: "ex-hip-abductor-machine",
+            name: "Abducción de Cadera (Glúteo)",
+            description: "Sentada en la máquina abductora, abrir las piernas empujando el peso hacia afuera.",
+            reps: "12 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "day7",
+    dayName: "Día 7: Estiramientos",
+    notes: "Día de descanso activo. Dedica este tiempo a hacer estiramientos completos para relajar los músculos y mejorar tu flexibilidad.",
+    circuits: []
+  },
+  {
+    id: "day8",
+    dayName: "Día 8: Descanso",
+    notes: "Día de recuperación total. ¡Disfruta tu descanso y prepárate para empezar el ciclo con fuerza!",
+    circuits: []
+  },
+  {
+    id: "day9",
+    dayName: "Día 9: Total Body",
+    notes: "Día completo de cuerpo. Pesos detallados por ejercicio.",
+    circuits: [
+      {
+        id: "d9-c1",
+        title: "Circuito 1",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-heel-squat-weight",
+            name: "Sentadilla (Talones Elevados) con Peso",
+            description: "Sentadilla con pesa/barra en la nuca y discos debajo de los talones para mayor enfoque en cuádriceps.",
+            reps: "12 reps",
+            weight: "Barra o Pesado",
+            images: []
+          },
+          {
+            id: "ex-heel-squat-bw",
+            name: "Sentadilla (Talones Elevados) sin Peso",
+            description: "Sentadillas libres sin peso manteniendo los talones elevados sobre los discos.",
+            reps: "12 reps",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-high-step-up",
+            name: "Step Up a Superficie Alta",
+            description: "Subidas a un cajón o step alto sosteniendo una pesa.",
+            reps: "12 reps por pierna",
+            weight: "20 - 30 lbs",
+            images: []
+          },
+          {
+            id: "ex-bulgarian-light",
+            name: "Sentadilla Búlgara",
+            description: "Sentadilla búlgara apoyando la pierna trasera en el step, con poco peso.",
+            reps: "12 reps por pierna",
+            weight: "Ligero",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "d9-c2",
+        title: "Circuito 2",
+        rounds: 3,
+        exercises: [
+          {
+            id: "ex-lunge-squat-combo",
+            name: "Combo: Lunge + Sentadilla",
+            description: "Lunge (tijera) con pesas a los lados, devuelves la pierna y haces una sentadilla. (Opcional: usar liga sobre la rodilla).",
+            reps: "12 reps",
+            weight: "15 - 20 lbs",
+            images: []
+          },
+          {
+            id: "ex-lateral-raise",
+            name: "Elevaciones Laterales",
+            description: "Elevaciones laterales para hombros con mancuernas.",
+            reps: "12 reps",
+            weight: "5 - 8 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "d9-c3",
+        title: "Circuito 3",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-front-raise-neutral",
+            name: "Elevación Frontal (Puños Verticales)",
+            description: "Elevación frontal de hombros manteniendo los puños en posición vertical (agarre neutro).",
+            reps: "12 reps",
+            weight: "5 - 8 lbs",
+            images: []
+          },
+          {
+            id: "ex-tricep-cup",
+            name: "Tríceps Copa",
+            description: "Extensión de tríceps por encima de la cabeza sosteniendo una mancuerna en forma de copa.",
+            reps: "12 reps",
+            weight: "15 - 20 lbs",
+            images: []
+          },
+          {
+            id: "ex-kneeling-pushup",
+            name: "Flexiones de Rodillas",
+            description: "Flexiones de pecho con las rodillas apoyadas en el piso.",
+            reps: "12 reps / Al fallo",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-lateral-raise-2",
+            name: "Elevaciones Laterales",
+            description: "Repetir las elevaciones laterales de hombros con mancuernas.",
+            reps: "12 reps",
+            weight: "5 - 8 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "d9-c4",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-leg-extension",
+            name: "Extensión de Cuádriceps (Leg Extension)",
+            description: "Sentada en la máquina, extender las piernas hacia arriba para aislar y trabajar los cuádriceps.",
+            reps: "12 reps",
+            weight: "Pesado",
+            images: ["assets/ex_leg_extension.jpg"]
+          },
+          {
+            id: "ex-triceps-pushdown-pronated",
+            name: "Polea Tríceps (Agarre Prono)",
+            description: "Extensión de tríceps en polea alta con agarre prono (palmas/muñecas apuntando hacia abajo).",
+            reps: "12 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          },
+          {
+            id: "ex-leg-press-close-mid",
+            name: "Prensa Cerrada a la Mitad",
+            description: "Prensa de piernas con los pies juntos (cerrada) y ubicados a la mitad de la plataforma.",
+            reps: "12 reps",
+            weight: "Pesado",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "day10",
+    dayName: "Día 10: Espalda, Bíceps y Core",
+    notes: "Pesos: Bíceps (10-15 lbs) | Remo Banco (Mín. 20 lbs) | Abdomen (5-10 lbs o Barra 12 lbs)",
+    circuits: [
+      {
+        id: "d10-c1",
+        title: "Circuito 1",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-bicep-curl-front",
+            name: "Curl de Bíceps Frontal",
+            description: "Curl de bíceps frontal con mancuernas, manteniendo los codos fijos y pegados al cuerpo.",
+            reps: "12 reps",
+            weight: "10 - 15 lbs",
+            images: []
+          },
+          {
+            id: "ex-plank-row",
+            name: "Plancha con Remo (Renegade Row)",
+            description: "En posición de plancha alta sosteniendo las mancuernas, realizar un remo alternando cada brazo.",
+            reps: "10-12 reps por lado",
+            weight: "10 - 20 lbs",
+            images: []
+          },
+          {
+            id: "ex-single-arm-row-bench",
+            name: "Remo a Una Mano en Banco",
+            description: "Apoyando una rodilla y una mano en el banco, hacer remo con mancuerna pesada tirando hacia la cadera.",
+            reps: "12 reps por brazo",
+            weight: "20 lbs (mínimo)",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "d10-c2",
+        title: "Circuito 2 (Abdomen)",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-pullover-crunch",
+            name: "Crunch con Descenso de Brazos",
+            description: "Acostada con las pesas arriba. Subir las piernas mientras bajas los brazos extendidos para que queden a los lados de la cadera.",
+            reps: "15 reps",
+            weight: "5 - 10 lbs / Barra 12 lbs",
+            images: []
+          },
+          {
+            id: "ex-hollow-hold-weights",
+            name: "Isometría Abdominal (Hollow Hold)",
+            description: "Acostada, pesas sostenidas en el pecho. Levantar ligeramente hombros y piernas, manteniendo el abdomen fuertemente contraído sin moverse.",
+            reps: "30 - 45 segs",
+            weight: "5 - 10 lbs",
+            images: []
+          },
+          {
+            id: "ex-v-up-crunch",
+            name: "Crunch Completo Alcanzando Piernas",
+            description: "Acostada, piernas elevadas. Brazos extendidos atrás de la cabeza; dar un impulso haciendo un crunch hasta que las manos alcancen las piernas.",
+            reps: "15 reps",
+            weight: "Corporal",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "d10-c3",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-lat-pulldown-close-grip",
+            name: "Jalón de Polea al Pecho",
+            description: "En la máquina de jalón (espalda sentado), jalar hacia el pecho contrayendo la espalda con agarre cerrado.",
+            reps: "12 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          },
+          {
+            id: "ex-seated-machine-row",
+            name: "Remo en Máquina",
+            description: "En la máquina de remo sentado, jalar el peso hacia el torso manteniendo la espalda recta.",
+            reps: "12 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "day11",
+    dayName: "Día 11: Pierna y Glúteo",
+    notes: "Pesos: Sumo pesada (65 lbs) | Mancuerna normal (25-30 lbs) | Tobilleras (mín. 10 lbs)",
+    circuits: [
+      {
+        id: "d11-c1",
+        title: "Circuito 1",
+        rounds: 3,
+        exercises: [
+          {
+            id: "ex-lying-side-leg-swings",
+            name: "Elevaciones de Pierna Acostada (Adelante y Atrás)",
+            description: "Acostada de lado con tobilleras, llevar la pierna estirada hacia adelante y luego hacia atrás en repetidas ocasiones.",
+            reps: "15 reps por pierna",
+            weight: "Tobilleras (10+ lbs)",
+            images: []
+          },
+          {
+            id: "ex-deficit-sumo-squat",
+            name: "Sentadilla Sumo en Déficit",
+            description: "Sentadilla sumo profunda subida sobre dos steps, sosteniendo una mancuerna pesada para mayor rango.",
+            reps: "12 reps",
+            weight: "65 lbs",
+            images: []
+          },
+          {
+            id: "ex-cossack-squat-weight",
+            name: "Sentadilla Lateral (Lado a Lado)",
+            description: "Con pesa, realizar sentadilla lateral llevando el peso hacia un lado y luego hacia el otro.",
+            reps: "12 reps por lado",
+            weight: "25 - 30 lbs",
+            images: []
+          },
+          {
+            id: "ex-glute-kickback-lateral-combo",
+            name: "Patada de Glúteo (Atrás y Lateral)",
+            description: "En el suelo en cuadrupedia con tobilleras, hacer patada de glúteo hacia atrás seguida de una apertura lateral (perrito).",
+            reps: "12 reps por pierna",
+            weight: "Tobilleras (10+ lbs)",
+            images: []
+          },
+          {
+            id: "ex-lateral-bench-squat",
+            name: "Sentadilla a Una Pierna en Banco",
+            description: "De lado al banco con una pierna apoyada arriba, hacer sentadilla de un solo lado sosteniendo la pesa.",
+            reps: "12 reps por pierna",
+            weight: "25 - 30 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "d11-c2",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-machine-hip-thrust",
+            name: "Hip Thrust en Máquina",
+            description: "Empuje de cadera (Hip Thrust) en máquina, apretando el glúteo en la parte superior del movimiento.",
+            reps: "12 reps",
+            weight: "Pesado",
+            images: []
+          },
+          {
+            id: "ex-adductor-machine",
+            name: "Aductor en Máquina",
+            description: "Sentada en la máquina de aductores, cerrar las piernas venciendo la resistencia del peso.",
+            reps: "12 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          },
+          {
+            id: "ex-leg-press-wide",
+            name: "Prensa (Piernas Abiertas)",
+            description: "Prensa de piernas con posición de pies abierta (puntas hacia afuera) enfocada en glúteo e isquiotibiales.",
+            reps: "12 reps",
+            weight: "Pesado",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "day12",
+    dayName: "Día 12: Total Tren Superior",
+    notes: "Pesos: Mancuernas (20 lbs) para ejercicios pesados | Mancuernas (10 lbs) para elevaciones e isometría.",
+    circuits: [
+      {
+        id: "d12-c1",
+        title: "Circuito 1",
+        rounds: 3,
+        exercises: [
+          {
+            id: "ex-pushup",
+            name: "Flexiones de Pecho",
+            description: "Flexiones tradicionales (o con rodillas apoyadas) bajando el pecho al suelo.",
+            reps: "12 reps",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-bicep-curl-close-press",
+            name: "Curl de Bíceps + Press Cerrado",
+            description: "Hacer un curl de bíceps frontal y al llegar arriba, subir inmediatamente en press de hombro cerrado.",
+            reps: "12 reps",
+            weight: "10 - 20 lbs",
+            images: []
+          },
+          {
+            id: "ex-lateral-raise",
+            name: "Elevaciones Laterales",
+            description: "Elevaciones laterales para hombros con mancuernas.",
+            reps: "12 reps",
+            weight: "10 lbs",
+            images: []
+          },
+          {
+            id: "ex-iso-hold-bicep-curl",
+            name: "Bíceps Isométrico y Activo",
+            description: "Sostener una mancuerna a 90 grados (isométrico) mientras el otro brazo hace curl frontal. Luego cambiar.",
+            reps: "10 reps por brazo",
+            weight: "10 lbs",
+            images: []
+          },
+          {
+            id: "ex-arnold-press",
+            name: "Press Arnold",
+            description: "Sostener pesas bajo la barbilla (palmas hacia ti), girar hacia afuera al subir y terminar en press de hombro abierto.",
+            reps: "12 reps",
+            weight: "10 - 20 lbs",
+            images: []
+          },
+          {
+            id: "ex-seated-reverse-fly",
+            name: "Vuelos Inversos (Espalda)",
+            description: "Inclinando el torso hacia adelante, abrir y cerrar los brazos (pájaros) para trabajar la espalda posterior.",
+            reps: "12 reps",
+            weight: "10 - 20 lbs",
+            images: []
+          },
+          {
+            id: "ex-plank-knee-to-shoulder",
+            name: "Plancha (Rodillas al Hombro)",
+            description: "En posición de plancha, llevar una rodilla hacia el hombro por fuera y alternar (Spiderman plank) para abdomen.",
+            reps: "12 reps por lado",
+            weight: "Corporal",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "d12-c2",
+        title: "Circuito 2 (Abdomen)",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-scissor-crunch-alt",
+            name: "Tijeras con Crunch Cruzado",
+            description: "Hacer tijeras con las piernas. Con los brazos extendidos arriba, llevarlos juntos hacia una rodilla y luego hacia la otra alternando.",
+            reps: "12 reps por lado",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-leg-tuck-lift",
+            name: "Encogimiento y Elevación de Piernas",
+            description: "Acostada, encoger las piernas, estirarlas y luego subirlas bien arriba levantando la cadera con el abdomen contraído.",
+            reps: "12 reps",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-basic-crunch",
+            name: "Crunch Abdominal",
+            description: "Crunch corto elevando los hombros del suelo y contrayendo fuerte el abdomen.",
+            reps: "20 reps",
+            weight: "Corporal",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "d12-c3",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-cable-bicep-rope",
+            name: "Polea: Bíceps con Soga",
+            description: "Curl de bíceps utilizando la polea baja y el agarre de soga.",
+            reps: "12 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          },
+          {
+            id: "ex-cable-tricep-rope",
+            name: "Polea: Tríceps con Soga",
+            description: "Extensión de tríceps en polea alta con soga utilizando agarre prono (palmas hacia abajo).",
+            reps: "12 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          },
+          {
+            id: "ex-cable-front-raise",
+            name: "Polea: Elevación Frontal",
+            description: "Levantamiento frontal para hombros usando la polea baja.",
+            reps: "12 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "day13",
+    dayName: "Día 13: Descanso",
+    notes: "Día de recuperación total. Aprovecha para descansar bien y relajar tus músculos.",
+    circuits: []
+  },
+  {
+    id: "day14",
+    dayName: "Día 14: Glúteo y Femoral",
+    notes: "Pesos: Barra (70 lbs) | Mancuerna puente (75 lbs) | Mancuernas tijera (20-30 lbs)",
+    circuits: [
+      {
+        id: "d14-c1",
+        title: "Circuito 1",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-smith-lunge-step",
+            name: "Lunge en Step con Barra",
+            description: "Lunge con la pierna delantera sobre un step y barra en los hombros (ideal hacerlo en máquina Smith).",
+            reps: "12 reps por pierna",
+            weight: "Barra (Hasta 70 lbs)",
+            images: []
+          },
+          {
+            id: "ex-lunge-fast",
+            name: "Lunge Rápido",
+            description: "Lunge (tijera) continuo a un ritmo rápido y constante sosteniendo mancuernas.",
+            reps: "12 reps por pierna",
+            weight: "20 - 30 lbs",
+            images: []
+          },
+          {
+            id: "ex-dumbbell-hip-thrust",
+            name: "Puente / Hip Thrust con Pesa",
+            description: "Empuje de cadera desde el suelo o banco bajo, colocando una mancuerna pesada sobre la pelvis.",
+            reps: "12 reps",
+            weight: "75 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "d14-c2",
+        title: "Circuito 2",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-barbell-rdl",
+            name: "Peso Muerto con Barra",
+            description: "Peso muerto rumano con barra, espalda recta y enfocando el estiramiento en la parte posterior de la pierna.",
+            reps: "12 reps",
+            weight: "Barra (Mín. 70 lbs)",
+            images: []
+          },
+          {
+            id: "ex-reverse-hyper-bench",
+            name: "Elevación de Piernas Inversa",
+            description: "Recostada boca abajo en el borde de un banco. Subir y bajar ambas piernas juntas apretando glúteos (puedes usar liga).",
+            reps: "15 reps",
+            weight: "Corporal / Liga",
+            images: []
+          },
+          {
+            id: "ex-banded-squat",
+            name: "Sentadilla con Banda Elástica",
+            description: "Sentadilla libre colocando una banda de resistencia (liga) por encima de las rodillas y forzando la apertura.",
+            reps: "15 reps",
+            weight: "Banda Elástica",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "d14-c3",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-machine-hip-thrust",
+            name: "Hip Thrust en Máquina",
+            description: "Empuje de cadera en máquina, apretando el glúteo un segundo en la parte superior.",
+            reps: "12 reps",
+            weight: "Pesado",
+            images: []
+          },
+          {
+            id: "ex-lying-leg-curl",
+            name: "Femoral Acostado",
+            description: "Curl de isquiotibiales en máquina, acostada boca abajo.",
+            reps: "12 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "day15",
+    dayName: "Día 15: Descanso",
+    notes: "Día libre. Tus músculos necesitan recuperar sus fibras musculares tras estos días intensos.",
+    circuits: []
+  },
+  {
+    id: "day16",
+    dayName: "Día 16: Descanso",
+    notes: "Recuperación total. Hidrátate y prepárate física y mentalmente para retomar el entrenamiento.",
+    circuits: []
+  },
+  {
+    id: "day17",
+    dayName: "Día 17: Cuerpo Completo",
+    notes: "Misma rutina que el Día 1. ¡A darle con todo!",
+    referenceDay: "day1",
+    circuits: []
+  },
+  {
+    id: "day18",
+    dayName: "Día 18: Tren Superior y Abdomen",
+    notes: "Misma rutina que el Día 2. ¡Vamos con energía!",
+    referenceDay: "day2",
+    circuits: []
+  },
+  {
+    id: "day19",
+    dayName: "Día 19: Pierna y Glúteo",
+    notes: "Misma rutina que el Día 3. ¡A trabajar esas piernas!",
+    referenceDay: "day3",
+    circuits: []
+  },
+  {
+    id: "day20",
+    dayName: "Día 20: Tren Superior y Core",
+    notes: "Misma rutina que el Día 5. ¡Hombros, espalda y abdomen!",
+    referenceDay: "day5",
+    circuits: []
+  },
+  {
+    id: "day21",
+    dayName: "Día 21: Pierna (Femorales y Glúteo)",
+    notes: "Misma rutina que el Día 6. ¡A fondo con femorales y glúteo!",
+    referenceDay: "day6",
+    circuits: []
+  },
+  {
+    id: "day22",
+    dayName: "Día 22: Estiramientos",
+    notes: "Descanso activo. Dedica este tiempo a estirar bien todo el cuerpo y relajar las fibras musculares.",
+    circuits: []
+  },
+  {
+    id: "day23",
+    dayName: "Día 23: Descanso",
+    notes: "Recuperación total. ¡Disfruta tu descanso y prepárate para la siguiente semana!",
+    circuits: []
+  },
+  {
+    id: "day24",
+    dayName: "Día 24: Total Body",
+    notes: "Misma rutina que el Día 9. ¡Cuerpo completo a tope!",
+    referenceDay: "day9",
+    circuits: []
+  },
+  {
+    id: "day25",
+    dayName: "Día 25: Espalda, Bíceps y Core",
+    notes: "Misma rutina que el Día 10. ¡A construir esa espalda!",
+    referenceDay: "day10",
+    circuits: []
+  },
+  {
+    id: "day26",
+    dayName: "Día 26: Pierna y Glúteo",
+    notes: "Misma rutina que el Día 11. ¡Tobilleras y glúteo al máximo!",
+    referenceDay: "day11",
+    circuits: []
+  },
+  {
+    id: "day27",
+    dayName: "Día 27: Total Tren Superior",
+    notes: "Misma rutina que el Día 12. ¡Brazos, hombros y abdomen!",
+    referenceDay: "day12",
+    circuits: []
+  },
+  {
+    id: "day28",
+    dayName: "Día 28: Descanso",
+    notes: "¡Felicitaciones! Completaste 4 semanas de entrenamiento. Descansa y prepárate para el siguiente ciclo.",
+    circuits: []
+  },
+  {
+    id: "day29",
+    dayName: "Día 29: Glúteo y Femoral",
+    notes: "Misma rutina que el Día 14. ¡Último empuje de glúteo y femoral!",
+    referenceDay: "day14",
+    circuits: []
+  },
+  {
+    id: "day30",
+    dayName: "Día 30: Descanso",
+    notes: "Día de recuperación. ¡Ya casi cierras el mes, descansa bien!",
+    circuits: []
+  },
+  {
+    id: "day31",
+    dayName: "Día 31: Descanso",
+    notes: "¡Un mes completo de entrenamiento! Descansa, disfruta y prepárate para repetir el ciclo con más fuerza.",
+    circuits: []
+  },
+  {
+    id: "p2-day1",
+    phase: 2,
+    dayName: "F2 - Día 1: Cuerpo Completo",
+    notes: "Pesos: Mancuernas y barra según ejercicio. ¡Circuitos combinados de pierna, bíceps y hombros!",
+    circuits: [
+      {
+        id: "p2d1-c1",
+        title: "Circuito 1",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-wall-squat-closed",
+            name: "Sentadilla en Pared con Bola",
+            description: "Sentadilla con una bola de ejercicio entre la espalda y la pared, piernas juntas (cerradas).",
+            reps: "15 reps",
+            weight: "Corporal / Pesa a elección",
+            images: []
+          },
+          {
+            id: "ex-lunge-narrow-wide",
+            name: "Lunge Alternando Amplitud",
+            description: "Lunge alternando piernas, variando entre posición más cerrada y más abierta para trabajar diferentes ángulos.",
+            reps: "12 reps por pierna",
+            weight: "Moderado",
+            images: []
+          },
+          {
+            id: "ex-lunge-static-hammer",
+            name: "Lunge Estático + Bíceps Martillo",
+            description: "Lunge estático con una pierna al frente, realizando curl de bíceps tipo martillo simultáneamente.",
+            reps: "12 reps",
+            weight: "10 - 15 lbs",
+            images: []
+          },
+          {
+            id: "ex-lunge-static-front-raise-neutral",
+            name: "Lunge Estático (Pierna 2) + Hombros Frontales",
+            description: "Lunge estático con la otra pierna al frente. Elevar los brazos al frente con puños en posición vertical.",
+            reps: "12 reps",
+            weight: "5 - 10 lbs",
+            images: []
+          },
+          {
+            id: "ex-seated-lateral-to-front-raise",
+            name: "Hombros: Lateral a Frontal (Sentada)",
+            description: "Sentada, subir las mancuernas de manera lateral y luego hacer el recorrido completo hacia el frente.",
+            reps: "12 reps",
+            weight: "5 - 8 lbs",
+            images: []
+          },
+          {
+            id: "ex-squat-jump-in-out",
+            name: "Sentadilla con Barra + Salto (Abre/Cierra)",
+            description: "Sentadilla con barra en los hombros y al subir, saltar abriendo y cerrando las piernas.",
+            reps: "12 reps",
+            weight: "Barra",
+            images: []
+          },
+          {
+            id: "ex-barbell-curl-to-press",
+            name: "Bíceps con Barra + Press de Hombro",
+            description: "Curl de bíceps frontal con barra y al llegar arriba, subir inmediatamente a press de hombros.",
+            reps: "12 reps",
+            weight: "Barra",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d1-c2",
+        title: "Circuito 2",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-squat-jump-hammer-combo",
+            name: "3 Sentadillas + Salto + 2 Bíceps Martillo",
+            description: "Hacer 3 sentadillas seguidas, luego un salto con piernas cerradas al subir, y terminar con 2 curl de bíceps tipo martillo.",
+            reps: "10 reps del combo",
+            weight: "10 - 15 lbs",
+            images: []
+          },
+          {
+            id: "ex-barbell-shoulder-press-supine",
+            name: "Press de Hombros con Barra (Agarre Supino)",
+            description: "Press de hombros con barra usando agarre supino (palmas mirando hacia ti al empujar).",
+            reps: "12 reps",
+            weight: "Barra",
+            images: []
+          },
+          {
+            id: "ex-step-up-hammer-curl",
+            name: "Step Up con Bíceps Martillo",
+            description: "Subir al step alternando piernas, realizando un curl de bíceps tipo martillo en cada subida.",
+            reps: "12 reps por pierna",
+            weight: "10 - 15 lbs",
+            images: []
+          },
+          {
+            id: "ex-single-arm-pushup-step",
+            name: "Flexión a Una Mano en Step",
+            description: "Flexión apoyando una mano en el step y rodillas en el piso, alternando las manos.",
+            reps: "10 reps por lado",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-front-raise-neutral",
+            name: "Elevación Frontal (Agarre Vertical)",
+            description: "Subir los brazos al frente con agarre neutro (puños verticales) hasta la altura de los hombros.",
+            reps: "12 reps",
+            weight: "5 - 8 lbs",
+            images: []
+          },
+          {
+            id: "ex-bicep-curl-alternating",
+            name: "Bíceps Frontal Alternando",
+            description: "Curl de bíceps frontal alternando un brazo a la vez.",
+            reps: "12 reps por brazo",
+            weight: "10 - 15 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d1-c3",
+        title: "Circuito 3",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-calf-raises-weighted",
+            name: "Pantorrillas con Peso",
+            description: "Elevaciones de talones (pantorrillas) sosteniendo mancuernas a los lados o con barra sobre los hombros.",
+            reps: "20 reps",
+            weight: "Mancuernas / Barra",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d1-c4",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-leg-extension",
+            name: "Extensión de Cuádriceps (Leg Extension)",
+            description: "Sentada en la máquina, extender las piernas hacia arriba para trabajar cuádriceps.",
+            reps: "12 reps",
+            weight: "Pesado",
+            images: ["assets/ex_leg_extension.jpg"]
+          },
+          {
+            id: "ex-calf-press-machine",
+            name: "Pantorrilla en Prensa Horizontal",
+            description: "Usar la prensa de piernas para hacer elevaciones de talones (pantorrillas) con las rodillas extendidas.",
+            reps: "20 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "p2-day2",
+    phase: 2,
+    dayName: "F2 - Día 2: Espalda, Tríceps y Core",
+    notes: "Pesos: Barra (2 discos de 25 lbs) | Mancuernas remo (20-25 lbs) | Mancuerna abdomen (5 lbs)",
+    circuits: [
+      {
+        id: "p2d2-c1",
+        title: "Circuito 1",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-barbell-row-standing",
+            name: "Remo con Barra (Parada e Inclinada)",
+            description: "De pie con el torso inclinado hacia adelante, hacer remo con barra tirando hacia el abdomen. Mantener la espalda recta.",
+            reps: "12 reps",
+            weight: "Barra (2 x 25 lbs)",
+            images: []
+          },
+          {
+            id: "ex-pushup",
+            name: "Flexiones Completas al Suelo",
+            description: "Flexiones bajando el pecho completamente al suelo en cada repetición.",
+            reps: "12 reps / Al fallo",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-superman",
+            name: "Superman (Extensión de Espalda Baja)",
+            description: "Acostada boca abajo, subir simultáneamente los brazos extendidos y las piernas del suelo, contrayendo la espalda baja y glúteos.",
+            reps: "15 reps",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-dumbbell-row-bent",
+            name: "Remo con Mancuernas (Inclinada)",
+            description: "Igual que el remo con barra pero usando mancuernas, inclinada hacia adelante, tirando hacia el abdomen.",
+            reps: "12 reps",
+            weight: "20 - 25 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d2-c2",
+        title: "Circuito 2",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-tricep-cup",
+            name: "Tríceps Copa (Sentada)",
+            description: "Sentada en una silla o banco, extensión de tríceps por encima de la cabeza sosteniendo una mancuerna con ambas manos en forma de copa.",
+            reps: "12 reps",
+            weight: "20 - 25 lbs",
+            images: []
+          },
+          {
+            id: "ex-tricep-cup-single",
+            name: "Tríceps Copa a Una Mano",
+            description: "Extensión de tríceps por encima de la cabeza con una sola mano, alternando brazos.",
+            reps: "12 reps por brazo",
+            weight: "10 - 15 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d2-c3",
+        title: "Circuito 3 (Core)",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-ab-knee-tuck-weight",
+            name: "Crunch con Pesa: Rodilla a Rodilla",
+            description: "Acostada, pesa con ambas manos por encima de la cabeza. Flexionar una pierna y llevar la pesa hacia esa rodilla, estirar, luego la otra pierna, finalmente flexionar ambas y llevar la pesa al centro.",
+            reps: "10 reps del ciclo completo",
+            weight: "5 lbs",
+            images: []
+          },
+          {
+            id: "ex-seated-leg-tuck",
+            name: "Encogimiento Sentada",
+            description: "Sentada con piernas levemente despegadas del piso, flexionar y extender las piernas manteniendo el abdomen contraído.",
+            reps: "15 reps",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-cross-leg-arm-reach",
+            name: "Extensión Cruzada Pierna-Brazo",
+            description: "Acostada, brazos y piernas estirados. Subir una pierna y llevar el brazo contrario hacia ella. Bajar y repetir con el otro lado.",
+            reps: "12 reps por lado",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-seated-oblique-weight",
+            name: "Rotación Lateral Sentada (Ruso)",
+            description: "Sentada con piernas levemente separadas del suelo, sostener la mancuerna con ambas manos y llevarla de lado a lado (twist ruso).",
+            reps: "15 reps por lado",
+            weight: "5 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d2-c4",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-seated-machine-row",
+            name: "Remo en Máquina",
+            description: "En la máquina de remo sentado, jalar el peso hacia el torso manteniendo la espalda recta.",
+            reps: "12 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          },
+          {
+            id: "ex-cable-tricep-cup",
+            name: "Polea Tríceps en Copa",
+            description: "Extensión de tríceps en polea alta sosteniendo el accesorio sobre la cabeza en forma de copa.",
+            reps: "12 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          },
+          {
+            id: "ex-pullover-smith",
+            name: "Pull Over en Smith",
+            description: "Acostada bajo la barra del Smith, llevar la barra desde detrás de la cabeza hasta encima del pecho (pull over).",
+            reps: "12 reps",
+            weight: "Moderado",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "p2-day3",
+    phase: 2,
+    dayName: "F2 - Día 3: Glúteo y Femoral",
+    notes: "Pesos: Tobilleras (15 lbs) | Búlgaras barra (20-25 lbs) o mancuerna (20 lbs) | Peso muerto (30-40 lbs)",
+    circuits: [
+      {
+        id: "p2d3-c1",
+        title: "Circuito 1",
+        rounds: 5,
+        exercises: [
+          {
+            id: "ex-glute-kickback-ankle",
+            name: "Patada de Glúteo con Tobillera",
+            description: "De pie o en cuadrupedia, patada de glúteo hacia atrás con tobillera de peso. Mantener el core firme.",
+            reps: "15 reps por pierna",
+            weight: "Tobilleras (15 lbs)",
+            images: []
+          },
+          {
+            id: "ex-bulgarian-barbell-to-dumbbell",
+            name: "Búlgara en Step: Barra luego Rápido con Mancuerna",
+            description: "Primero hacer la búlgara lenta y controlada con barra en los hombros, luego repetir el mismo set de forma explosiva con mancuerna.",
+            reps: "10 reps lentas + 10 reps rápidas",
+            weight: "Barra (20-25 lbs) / Mancuerna (20 lbs)",
+            images: []
+          },
+          {
+            id: "ex-rdl-single-leg-balance",
+            name: "Peso Muerto a Una Pierna (Contrapeso)",
+            description: "Peso muerto a una pierna: al bajar la pesa, la otra pierna sube hacia atrás como contrapeso para trabajar equilibrio y femoral.",
+            reps: "10 reps por pierna",
+            weight: "30 - 40 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d3-c2",
+        title: "Circuito 2",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-rdl-dumbbells",
+            name: "Peso Muerto con Dos Pesas",
+            description: "Peso muerto rumano clásico de pie, bajando con ambas pesas y manteniendo la espalda recta.",
+            reps: "12 reps",
+            weight: "30 - 40 lbs",
+            images: []
+          },
+          {
+            id: "ex-glute-kickback-ankle",
+            name: "Patada de Glúteo con Tobillera",
+            description: "De pie o en cuadrupedia, patada de glúteo hacia atrás con tobillera de peso.",
+            reps: "15 reps por pierna",
+            weight: "Tobilleras (15 lbs)",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d3-c3",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-machine-hip-thrust",
+            name: "Hip Thrust en Máquina",
+            description: "Empuje de cadera en máquina apretando fuerte el glúteo arriba.",
+            reps: "12 reps",
+            weight: "Pesado",
+            images: []
+          },
+          {
+            id: "ex-leg-press-top-closed",
+            name: "Prensa Piernas Arriba y Cerradas",
+            description: "Prensa de piernas con pies en la parte alta de la plataforma y juntos (cerrados).",
+            reps: "12 reps",
+            weight: "Pesado",
+            images: []
+          },
+          {
+            id: "ex-seated-leg-curl",
+            name: "Femoral Sentado (Seated Curl)",
+            description: "Curl de isquiotibiales en la máquina de femoral sentado.",
+            reps: "12 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          },
+          {
+            id: "ex-hip-abductor-machine",
+            name: "Abducción de Cadera",
+            description: "Sentada en la máquina abductora, abrir las piernas empujando el peso hacia afuera.",
+            reps: "15 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  { id: "p2-day4",  phase: 2, dayName: "F2 - Día 4: Descanso",  notes: "Día de recuperación. ¡Hidratación y descanso!", circuits: [] },
+  {
+    id: "p2-day5",
+    phase: 2,
+    dayName: "F2 - Día 5: Bíceps, Hombros y Core",
+    notes: "Pesos: Barra (15-20 lbs) | Mancuernas (5, 10 y 12 lbs). Sin máquinas este día.",
+    circuits: [
+      {
+        id: "p2d5-c1",
+        title: "Circuito 1",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-bicep-curl-barbell",
+            name: "Curl de Bíceps Frontal con Barra",
+            description: "Curl de bíceps tradicional con barra, codos pegados al cuerpo.",
+            reps: "12 reps",
+            weight: "Barra (15-20 lbs)",
+            images: []
+          },
+          {
+            id: "ex-bicep-curl-lateral-db",
+            name: "Curl de Bíceps Lateral con Mancuerna",
+            description: "Curl de bíceps con mancuerna llevando el brazo hacia el lado del cuerpo (ángulo lateral).",
+            reps: "12 reps por brazo",
+            weight: "10 - 12 lbs",
+            images: []
+          },
+          {
+            id: "ex-side-lateral-raise-step",
+            name: "Lateral de Hombro en Step (Acostada de Lado)",
+            description: "Acostada de lado sobre el step, bajar y subir el brazo de forma lateral para trabajar el hombro.",
+            reps: "12 reps por lado",
+            weight: "5 lbs",
+            images: []
+          },
+          {
+            id: "ex-step-up-fast",
+            name: "Subir y Bajar Rápido en Step",
+            description: "Subidas y bajadas rápidas y continuas en el step, alternando piernas.",
+            reps: "20 reps",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-burpees-3",
+            name: "Burpees (3 repeticiones)",
+            description: "3 burpees completos: saltar, bajar a plancha, flexión y saltar de vuelta.",
+            reps: "3 burpees",
+            weight: "Corporal",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d5-c2",
+        title: "Circuito 2",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-chest-press-step-bar",
+            name: "Press de Pecho Acostada en Step con Barra",
+            description: "Acostada en el step (espalda apoyada), realizar press de pecho con barra subiendo y bajando de forma controlada.",
+            reps: "12 reps",
+            weight: "Barra (15-20 lbs)",
+            images: []
+          },
+          {
+            id: "ex-bicep-curl-arms-up",
+            name: "Curl de Bíceps con Brazos Elevados",
+            description: "Curl de bíceps realizado con los brazos elevados hacia los lados (codos a la altura de los hombros), trabajando un ángulo diferente del bíceps.",
+            reps: "12 reps",
+            weight: "10 - 12 lbs",
+            images: []
+          },
+          {
+            id: "ex-step-up-fast",
+            name: "Subir y Bajar Rápido en Step",
+            description: "Subidas y bajadas rápidas y continuas en el step, alternando piernas.",
+            reps: "20 reps",
+            weight: "Corporal",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d5-c3",
+        title: "Circuito 3 (Core)",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-plank-hip-rotation",
+            name: "Plancha con Rotación de Cadera",
+            description: "En posición de plancha baja (o alta), rotar la cadera tocando el suelo alternando a derecha e izquierda.",
+            reps: "12 reps por lado",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-tuck-crunch-weighted",
+            name: "Crunch: Piernas Estiradas y Encogimiento",
+            description: "Acostada, brazos arriba y piernas ligeramente despegadas del suelo. Flexionar piernas y bajar los brazos debajo de ellas, volver y repetir. Con pequeñas pesas en las manos.",
+            reps: "15 reps",
+            weight: "5 lbs",
+            images: []
+          },
+          {
+            id: "ex-leg-up-ankle-touch",
+            name: "Piernas Arriba + Toque de Tobillos",
+            description: "Acostada con las piernas levantadas verticales, intentar tocar los tobillos subiendo el tronco.",
+            reps: "15 reps",
+            weight: "Corporal",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "p2-day6",
+    phase: 2,
+    dayName: "F2 - Día 6: Pierna y Glúteo",
+    notes: "Pesos: Mancuernas lunge (25-30 lbs) | Mancuerna sentadilla sumo (80-95 lbs) | Tobilleras (15 lbs)",
+    circuits: [
+      {
+        id: "p2d6-c1",
+        title: "Circuito 1",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-walking-lunge",
+            name: "Lunge Caminando",
+            description: "Zancadas caminando hacia adelante, bajando profundo y manteniendo el torso recto.",
+            reps: "12 reps por pierna",
+            weight: "25 - 30 lbs",
+            images: []
+          },
+          {
+            id: "ex-seated-band-abduction",
+            name: "Abducción Sentada con Banda",
+            description: "Sentada, abrir y cerrar las piernas con una banda elástica de resistencia colocada por encima de las rodillas.",
+            reps: "20 reps",
+            weight: "Banda de resistencia",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d6-c2",
+        title: "Circuito 2",
+        rounds: 5,
+        exercises: [
+          {
+            id: "ex-sumo-squat-bent-over",
+            name: "Sentadilla Sumo Inclinada",
+            description: "Sentadilla sumo con piernas separadas, bajando con la espalda bien inclinada hacia adelante para enfatizar el trabajo en el glúteo.",
+            reps: "12 reps",
+            weight: "80 - 95 lbs",
+            images: []
+          },
+          {
+            id: "ex-side-lying-leg-raise-ankle",
+            name: "Elevación de Pierna Lateral Acostada",
+            description: "Acostada de lado, subir y bajar la pierna superior de forma controlada.",
+            reps: "15 reps por pierna",
+            weight: "Tobilleras (15 lbs)",
+            images: []
+          },
+          {
+            id: "ex-lying-leg-abduction-ankle",
+            name: "Apertura de Piernas Acostada",
+            description: "Acostada boca arriba con las piernas elevadas en vertical, abrir y cerrar las piernas.",
+            reps: "15 reps",
+            weight: "Tobilleras (15 lbs)",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d6-c3",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-machine-hip-thrust",
+            name: "Hip Thrust en Máquina",
+            description: "Empuje de cadera en máquina, apretando fuerte el glúteo en la parte alta del movimiento.",
+            reps: "12 reps",
+            weight: "Pesado",
+            images: []
+          },
+          {
+            id: "ex-adductor-machine",
+            name: "Aducción de Cadera",
+            description: "En la máquina de aductores (cerrar), juntar las piernas venciendo la resistencia.",
+            reps: "15 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  { id: "p2-day7",  phase: 2, dayName: "F2 - Día 7: Descanso",  notes: "Día de recuperación. ¡Hidratación y descanso!", circuits: [] },
+  { id: "p2-day8",  phase: 2, dayName: "F2 - Día 8: Descanso",  notes: "Día de recuperación. ¡Hidratación y descanso!", circuits: [] },
+  {
+    id: "p2-day9",
+    phase: 2,
+    dayName: "F2 - Día 9: Glúteo y Pierna",
+    notes: "Pesos: Mancuernas (25 lbs min) | Mancuerna pesada (80 lbs min) | Barra (discos de 25 lbs min/lado) | Lunges (2 mancuernas de 25 lbs)",
+    circuits: [
+      {
+        id: "p2d9-c1",
+        title: "Circuito 1",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-single-leg-hip-thrust-bench",
+            name: "Puente de Glúteo a 1 Pierna en Banco",
+            description: "Espalda apoyada en el banco, puente de glúteo a una pierna. La pesa se sostiene sobre la cadera del lado de la pierna que está apoyada en el piso.",
+            reps: "12 reps por pierna",
+            weight: "25 lbs min",
+            images: []
+          },
+          {
+            id: "ex-deadlift-barbell-heavy",
+            name: "Peso Muerto Tradicional con Barra",
+            description: "Peso muerto con barra pesada flexionando las rodillas (estilo tradicional), manteniendo la espalda recta.",
+            reps: "10-12 reps",
+            weight: "Pesado (Barra + 50 lbs min)",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d9-c2",
+        title: "Circuito 2",
+        rounds: 3,
+        exercises: [
+          {
+            id: "ex-reverse-lunge-step-wide",
+            name: "Lunge Atrás en Step (Amplio)",
+            description: "Lunge hacia atrás desde un step usando mancuernas. Dar el paso hacia atrás con buena amplitud (largo) para enfocar el glúteo.",
+            reps: "12 reps por pierna",
+            weight: "2x 25 lbs",
+            images: []
+          },
+          {
+            id: "ex-jump-lunge-barbell",
+            name: "Lunge con Salto (Barra en Hombros)",
+            description: "Lunge con salto (saltar y bajar haciendo el lunge) con la barra en los hombros y el torso ligeramente inclinado hacia adelante.",
+            reps: "10-12 reps",
+            weight: "Barra sola / Moderado",
+            images: []
+          },
+          {
+            id: "ex-single-leg-rdl-barbell",
+            name: "Peso Muerto a 1 Pierna con Barra",
+            description: "Peso muerto a una pierna usando barra, levantando la pierna libre extendida hacia atrás mientras se baja el peso.",
+            reps: "12 reps por pierna",
+            weight: "Barra (Pesado)",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d9-c3",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-machine-hip-thrust",
+            name: "Hip Thrust en Máquina",
+            description: "Empuje de cadera en máquina, apretando fuerte el glúteo en la parte alta.",
+            reps: "12 reps",
+            weight: "Pesado",
+            images: []
+          },
+          {
+            id: "ex-leg-press-center",
+            name: "Prensa (Pies Centrados)",
+            description: "Prensa de piernas con los pies colocados al ancho de los hombros y en el centro de la plataforma.",
+            reps: "12 reps",
+            weight: "Pesado",
+            images: []
+          },
+          {
+            id: "ex-cable-glute-kickback",
+            name: "Patada de Glúteo en Polea",
+            description: "Con tobillera en la polea baja, dar patada recta hacia atrás contrayendo el glúteo.",
+            reps: "15 reps por pierna",
+            weight: "Moderado",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "p2-day10",
+    phase: 2,
+    dayName: "F2 - Día 10: Tren Superior y Core",
+    notes: "Pesos: Mancuernas (10-12 lbs y 15 lbs) | Disco (25 lbs)",
+    circuits: [
+      {
+        id: "p2d10-c1",
+        title: "Circuito 1: Pecho y Tríceps",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-knee-pushups",
+            name: "Flexiones con Rodillas",
+            description: "Flexiones (push-ups) con las rodillas apoyadas en el suelo.",
+            reps: "12 reps",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-skullcrusher-db",
+            name: "Tríceps Acostada con Pesa",
+            description: "Acostada boca arriba, brazos hacia arriba, flexionar codos bajando las pesas hacia la cabeza (Skullcrusher).",
+            reps: "12 reps",
+            weight: "10-15 lbs",
+            images: ["assets/ex_skullcrusher_db.jpg"]
+          },
+          {
+            id: "ex-single-arm-cross-tricep",
+            name: "Tríceps Acostada a un Brazo",
+            description: "Acostada, extensión de tríceps por cada brazo individualmente, bajando la pesa de lado.",
+            reps: "10-12 reps por brazo",
+            weight: "10-12 lbs",
+            images: []
+          },
+          {
+            id: "ex-skullcrusher-plate",
+            name: "Tríceps Acostada con Disco",
+            description: "Igual que el ejercicio 2 (Skullcrusher), pero sosteniendo un disco pesado con ambas manos.",
+            reps: "12 reps",
+            weight: "Disco 25 lbs",
+            images: []
+          },
+          {
+            id: "ex-overhead-tricep-plate",
+            name: "Copa con Disco",
+            description: "Extensión de tríceps tipo copa por encima de la cabeza sosteniendo un disco con ambas manos.",
+            reps: "12 reps",
+            weight: "Disco 25 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d10-c2",
+        title: "Circuito 2: Core",
+        rounds: 3,
+        exercises: [
+          {
+            id: "ex-heel-touches",
+            name: "Toque de Talones",
+            description: "Acostada, piernas flexionadas, torso levemente levantado. Moverse de lado a lado intentando tocar los talones.",
+            reps: "20 toques (10 por lado)",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-yoga-ball-leg-raises",
+            name: "Elevación de Piernas con Bola",
+            description: "Acostada, sosteniendo una pesa sobre la cabeza con brazos estirados. Sostener la bola de yoga entre las piernas y subir/bajar ambas piernas al mismo tiempo.",
+            reps: "12-15 reps",
+            weight: "Pesa + Bola de yoga",
+            images: []
+          },
+          {
+            id: "ex-side-v-up-oblique",
+            name: "Abdomen Oblicuos de Lado",
+            description: "Acostada de lado, subir las piernas y simultáneamente la mano intenta buscar los talones, contrayendo los oblicuos.",
+            reps: "12 reps por lado",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-bicycle-crunches",
+            name: "Bicicletas (Codo a Rodilla)",
+            description: "Acostada, llevar codo derecho a rodilla izquierda y viceversa en un movimiento de tijera.",
+            reps: "20 reps (10 por lado)",
+            weight: "Corporal",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d10-c3",
+        title: "Circuito 3: Hombros",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-shoulder-combo-press",
+            name: "Combo: Elevación y Press de Hombro",
+            description: "Codos flexionados, pesas horizontales frente a la cara, subir, bajar, luego abrir los brazos a los lados y empujar hacia arriba haciendo press de hombros.",
+            reps: "10-12 reps",
+            weight: "10-12 lbs",
+            images: []
+          },
+          {
+            id: "ex-front-raise-horizontal-db",
+            name: "Elevación Frontal (1 Pesa Horizontal)",
+            description: "Sostener una sola pesa de forma horizontal con ambas manos, subir y bajar al frente (elevación frontal).",
+            reps: "12-15 reps",
+            weight: "15 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d10-c4",
+        title: "Circuito 4: Espalda y Bíceps",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-fly-curl-press-combo",
+            name: "Combo: Pájaros + Martillo + Press",
+            description: "De pie con espalda inclinada, hacer apertura de brazos (pájaros). Luego pararse derecha, hacer curl de bíceps martillo y continuar subiendo las pesas a press de hombros.",
+            reps: "10 reps",
+            weight: "10-12 lbs",
+            images: []
+          },
+          {
+            id: "ex-lateral-bicep-curl",
+            name: "Curl de Bíceps Lateral",
+            description: "De pie, realizar curl de bíceps con los brazos abiertos hacia los lados en simultáneo.",
+            reps: "12 reps",
+            weight: "10-12 lbs",
+            images: []
+          },
+          {
+            id: "ex-concentration-curl",
+            name: "Curl Concentrado Sentada",
+            description: "Sentada en una silla, curl de bíceps individual apoyando el codo en la parte interna de la pierna.",
+            reps: "12 reps por brazo",
+            weight: "12-15 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d10-c5",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-cable-scapula-retraction",
+            name: "Escápula en Polea con Barra",
+            description: "En polea con barra recta, jalar retrayendo fuertemente las escápulas.",
+            reps: "12-15 reps",
+            weight: "Moderado",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  { id: "p2-day11", phase: 2, dayName: "F2 - Día 11: Descanso", notes: "Día de recuperación. ¡Hidratación y descanso!", circuits: [] },
+  {
+    id: "p2-day12",
+    phase: 2,
+    dayName: "F2 - Día 12: Pierna (Cuádriceps y Glúteo)",
+    notes: "Pesos: Mancuerna pesada (40 lbs) | 2 Mancuernas (25-30 lbs)",
+    circuits: [
+      {
+        id: "p2d12-c1",
+        title: "Circuito 1",
+        rounds: 5,
+        exercises: [
+          {
+            id: "ex-deficit-lunge-bw",
+            name: "Lunge entre Steps (Calentamiento)",
+            description: "Lunge profundo apoyándose entre dos steps para mayor rango de movimiento. Sin peso para calentar.",
+            reps: "12 reps por pierna",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-goblet-squat-heels-elevated",
+            name: "Sentadilla Cerrada en Disco (Goblet)",
+            description: "Sentadilla con piernas cerradas, apoyando los talones sobre un disco y sosteniendo la pesa grande en el pecho.",
+            reps: "12 reps",
+            weight: "40 lbs",
+            images: []
+          },
+          {
+            id: "ex-squat-pulses-db",
+            name: "Sentadillas Rebotadas (Cortas)",
+            description: "Sin el disco en los talones, hacer sentadillas con rebotes cortos abajo, sosteniendo dos pesas a los lados.",
+            reps: "15 reps",
+            weight: "2x 25-30 lbs",
+            images: []
+          },
+          {
+            id: "ex-sumo-squat-goblet",
+            name: "Sentadilla Sumo con Pesa Grande",
+            description: "Sentadilla sumo (piernas abiertas y puntas hacia afuera) sosteniendo la pesa grande en el pecho.",
+            reps: "12 reps",
+            weight: "40 lbs",
+            images: ["assets/ex6_sumo_squat_1788729674538.jpg"]
+          }
+        ]
+      },
+      {
+        id: "p2d12-c2",
+        title: "Circuito 2",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-squat-lunge-neck-weight",
+            name: "Squat Cerrado + Lunge",
+            description: "Pesa sostenida detrás de la cabeza. Hacer una sentadilla cerrada y al subir pasar a un lunge (paso corto). Opcional: usar banda elástica en rodillas.",
+            reps: "12 reps",
+            weight: "Moderado + Banda",
+            images: []
+          },
+          {
+            id: "ex-wall-sit-band",
+            name: "Sentadilla Isométrica en Pared",
+            description: "Sentadilla estática pegada a la pared. Puedes usar la banda elástica en las rodillas.",
+            reps: "45-60 segs",
+            weight: "Corporal / Banda",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d12-c3",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-smith-sumo-squat",
+            name: "Sentadilla Sumo en Smith",
+            description: "Sentadilla sumo (piernas abiertas) utilizando la barra de la máquina Smith.",
+            reps: "12 reps",
+            weight: "Pesado",
+            images: []
+          },
+          {
+            id: "ex-adductor-machine",
+            name: "Máquina de Aductores (Cerrar)",
+            description: "Sentada en la máquina con las almohadillas hacia afuera, realizar el movimiento de cerrar las piernas (Aductores).",
+            reps: "15 reps",
+            weight: "Pesado",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "p2-day13",
+    phase: 2,
+    dayName: "F2 - Día 13: Tren Superior y Abdomen",
+    notes: "Pesos: Barra (20-25 lbs) | Mancuernas (5-10 lbs) | Disco (25 lbs) | Sin máquinas hoy.",
+    circuits: [
+      {
+        id: "p2d13-c0",
+        title: "Ejercicio Aislado",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-tricep-dips-bench",
+            name: "Fondos de Tríceps",
+            description: "Fondos apoyando las manos en un banco o silla, bajando y subiendo el peso del cuerpo con los tríceps.",
+            reps: "12-15 reps",
+            weight: "Corporal",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d13-c1",
+        title: "Circuito 1: Hombro y Bíceps",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-lateral-front-raise-combo",
+            name: "Elevación Lateral + Frontal",
+            description: "Elevación lateral con ambos brazos a la vez, seguida de elevación frontal alternando una mano y luego la otra.",
+            reps: "10-12 reps",
+            weight: "5-10 lbs",
+            images: []
+          },
+          {
+            id: "ex-shoulder-press-db",
+            name: "Press de Hombros",
+            description: "Empuje vertical con mancuernas por encima de la cabeza.",
+            reps: "12 reps",
+            weight: "10 lbs",
+            images: []
+          },
+          {
+            id: "ex-bicep-curl-bar",
+            name: "Curl de Bíceps con Barra",
+            description: "Curl de bíceps tradicional utilizando la barra.",
+            reps: "12 reps",
+            weight: "20-25 lbs",
+            images: []
+          },
+          {
+            id: "ex-bicep-curl-plate",
+            name: "Curl Frontal con Disco",
+            description: "Curl de bíceps sosteniendo un disco pesado con ambas manos.",
+            reps: "12 reps",
+            weight: "Disco 25 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d13-c2",
+        title: "Circuito 2: Core y Pecho",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-ab-pass-under-single-arm",
+            name: "Abdomen: Pesa bajo Pierna Cruzada",
+            description: "Acostada, pesa en una mano sobre la cabeza. Subir buscando la pierna contraria, pasar la pesa por debajo de la pierna, cambiar de mano y repetir al otro lado.",
+            reps: "12-14 reps",
+            weight: "5-10 lbs",
+            images: []
+          },
+          {
+            id: "ex-crunch-legs-elevated",
+            name: "Crunch con Piernas Elevadas",
+            description: "Crunch abdominal clásico manteniendo las piernas flexionadas en el aire (a 90 grados).",
+            reps: "20 reps",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-chest-fly-leg-raise-ball",
+            name: "Aperturas Pecho + Elevación con Bola",
+            description: "Acostada boca arriba. Al mismo tiempo que cierras los brazos con las pesas (apertura de pecho), subes las piernas sosteniendo una bola de yoga entre ellas.",
+            reps: "12 reps",
+            weight: "5-10 lbs + Bola",
+            images: []
+          },
+          {
+            id: "ex-pushups-standard",
+            name: "Flexiones de Pecho",
+            description: "Flexiones (push-ups) tradicionales o con rodillas apoyadas.",
+            reps: "12 reps",
+            weight: "Corporal",
+            images: []
+          },
+          {
+            id: "ex-scissor-twist-chest-weight",
+            name: "Tijera de Piernas + Giro de Torso",
+            description: "Acostada, sosteniendo mancuernas pegadas al pecho. Mover las piernas en tijera mientras se gira el torso de lado a lado.",
+            reps: "20 reps",
+            weight: "5-10 lbs",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  { id: "p2-day14", phase: 2, dayName: "F2 - Día 14: Descanso", notes: "Día de recuperación. ¡Hidratación y descanso!", circuits: [] },
+  {
+    id: "p2-day15",
+    phase: 2,
+    dayName: "F2 - Día 15: Femoral y Glúteos",
+    notes: "Pesos: Barra max 70 lbs | Mancuernas lunge (20-30 lbs) | Mancuerna pesada (75 lbs) | Barra peso muerto (70 lbs)",
+    circuits: [
+      {
+        id: "p2d15-c1",
+        title: "Circuito 1",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-walking-lunge-barbell-lean",
+            name: "Lunge Caminando con Barra",
+            description: "Lunge caminando con barra en la espalda, flexionando e inclinando el torso ligeramente hacia adelante (sacando el glúteo) para mayor enfoque en femoral y glúteo.",
+            reps: "12 reps por pierna",
+            weight: "Barra (hasta 70 lbs)",
+            images: []
+          },
+          {
+            id: "ex-walking-lunge-diagonal",
+            name: "Lunge Caminando en Diagonal",
+            description: "Lunge caminando dando el paso en diagonal (curtsy), sosteniendo dos pesas a los lados.",
+            reps: "12 reps por pierna",
+            weight: "2x 20-30 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d15-c2",
+        title: "Circuito 2",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-glute-bridge-bench-band",
+            name: "Puente de Glúteo en Banco con Banda",
+            description: "Puente de glúteo apoyando la espalda en el banco, con banda elástica sobre las rodillas y sosteniendo una mancuerna pesada.",
+            reps: "12 reps",
+            weight: "75 lbs + Banda",
+            images: []
+          },
+          {
+            id: "ex-bulgarian-split-squat-lean",
+            name: "Sentadilla Búlgara",
+            description: "Búlgaras con pie apoyado en banco, sosteniendo dos pesas. Inclinar el torso hacia adelante sacando el glúteo.",
+            reps: "10-12 reps por pierna",
+            weight: "2x 20-30 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d15-c3",
+        title: "Circuito 3",
+        rounds: 3,
+        exercises: [
+          {
+            id: "ex-deadlift-barbell-rdl",
+            name: "Peso Muerto con Barra",
+            description: "Peso muerto con barra, bajando controlado sintiendo el estiramiento en los femorales.",
+            reps: "12 reps",
+            weight: "70 lbs",
+            images: []
+          }
+        ]
+      },
+      {
+        id: "p2d15-c4",
+        title: "Complemento: Máquinas",
+        rounds: 4,
+        exercises: [
+          {
+            id: "ex-machine-hip-thrust",
+            name: "Hip Thrust en Máquina",
+            description: "Empuje de cadera en máquina.",
+            reps: "12 reps",
+            weight: "Pesado",
+            images: []
+          },
+          {
+            id: "ex-seated-leg-curl",
+            name: "Femoral Seated Curl",
+            description: "Curl de isquiotibiales (femoral) sentada en máquina.",
+            reps: "12-15 reps",
+            weight: "Moderado / Pesado",
+            images: []
+          }
+        ]
+      }
+    ]
+  },
+  { id: "p2-day16", phase: 2, dayName: "F2 - Día 16: Descanso", notes: "Día de recuperación. ¡Hidratación y descanso!", circuits: [] },
+  { id: "p2-day17", phase: 2, dayName: "F2 - Día 17: Descanso", notes: "Día de recuperación. ¡Hidratación y descanso!", circuits: [] },
+  { id: "p2-day18", phase: 2, referenceDay: "p2-day1", dayName: "F2 - Día 18: Cuerpo Completo", notes: "Misma rutina que el F2 - Día 1.", circuits: [] },
+  { id: "p2-day19", phase: 2, referenceDay: "p2-day2", dayName: "F2 - Día 19: Espalda, Tríceps y Core", notes: "Misma rutina que el F2 - Día 2.", circuits: [] },
+  { id: "p2-day20", phase: 2, referenceDay: "p2-day3", dayName: "F2 - Día 20: Glúteo y Femoral", notes: "Misma rutina que el F2 - Día 3. ¡A por esos glúteos!", circuits: [] },
+  { id: "p2-day21", phase: 2, dayName: "F2 - Día 21: Descanso", notes: "Día de recuperación. ¡Hidratación y descanso!", circuits: [] },
+  { id: "p2-day22", phase: 2, referenceDay: "p2-day5", dayName: "F2 - Día 22: Bíceps, Hombros y Core", notes: "Misma rutina que el F2 - Día 5.", circuits: [] },
+  { id: "p2-day23", phase: 2, referenceDay: "p2-day6", dayName: "F2 - Día 23: Pierna y Glúteo", notes: "Misma rutina que el F2 - Día 6.", circuits: [] },
+  { id: "p2-day24", phase: 2, dayName: "F2 - Día 24: Descanso", notes: "Día de recuperación. ¡Hidratación y descanso!", circuits: [] },
+  { id: "p2-day25", phase: 2, dayName: "F2 - Día 25: Descanso", notes: "Día de recuperación. ¡Hidratación y descanso!", circuits: [] },
+  { id: "p2-day26", phase: 2, referenceDay: "p2-day9", dayName: "F2 - Día 26: Glúteo y Pierna", notes: "Misma rutina que el F2 - Día 9.", circuits: [] },
+  { id: "p2-day27", phase: 2, referenceDay: "p2-day10", dayName: "F2 - Día 27: Tren Superior y Core", notes: "Misma rutina que el F2 - Día 10.", circuits: [] },
+  { id: "p2-day28", phase: 2, dayName: "F2 - Día 28: Descanso", notes: "Día de recuperación. ¡Hidratación y descanso!", circuits: [] },
+  { id: "p2-day29", phase: 2, referenceDay: "p2-day15", dayName: "F2 - Día 29: Femoral y Glúteos", notes: "Misma rutina que el F2 - Día 15.", circuits: [] },
+  { id: "p2-day30", phase: 2, referenceDay: "p2-day13", dayName: "F2 - Día 30: Tren Superior y Abdomen", notes: "Misma rutina que el F2 - Día 13.", circuits: [] },
+  { id: "p2-day31", phase: 2, dayName: "F2 - Día 31: Descanso", notes: "Día de recuperación. ¡Hidratación y descanso!", circuits: [] },
+  { id: "p2-day32", phase: 2, dayName: "F2 - Día 32: Descanso", notes: "¡Felicidades! Has completado la Fase 2. Día de recuperación.", circuits: [] }
+];
+
+const phases = [
+  {
+    id: "phase1",
+    name: "Fase 1",
+    dayIds: routineData.filter(d => !d.phase || d.phase === 1).map(d => d.id)
+  },
+  {
+    id: "phase2",
+    name: "Fase 2",
+    dayIds: routineData.filter(d => d.phase === 2).map(d => d.id)
+  }
+];
+
+const getDayType = (day) => {
+  if (day.pending) return 'workout';
+  const resolved = day.referenceDay
+    ? (routineData.find(d => d.id === day.referenceDay) || day)
+    : day;
+  return resolved.circuits.length > 0 ? 'workout' : 'rest';
+};
+
+const Header = () => (
+  <header className="bg-purple-700 text-white p-6 shadow-md rounded-b-3xl mb-6">
+    <div className="max-w-3xl mx-auto">
+      <h1 className="text-3xl font-bold tracking-tight">Mis Entrenamientos</h1>
+      <p className="mt-2 text-purple-200">Progreso diario y rutinas personalizadas</p>
+    </div>
+  </header>
+);
+
+const ExerciseCard = ({ exercise, index }) => (
+  <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 exercise-card mb-4 flex flex-col sm:flex-row gap-4">
+    <div className="flex-1">
+      <div className="flex items-center gap-3 mb-2">
+        <span className="bg-purple-100 text-purple-700 font-bold w-8 h-8 rounded-full flex items-center justify-center text-sm">
+          {index + 1}
+        </span>
+        <h3 className="text-lg font-bold text-gray-800">{exercise.name}</h3>
+      </div>
+      <p className="text-gray-600 mb-4 ml-11">{exercise.description}</p>
+      
+      <div className="flex flex-wrap gap-2 ml-11">
+        <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+          {exercise.reps}
+        </span>
+        <span className="bg-orange-50 text-orange-700 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
+          {exercise.weight}
+        </span>
+        <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path></svg>
+          {exercise.id}
+        </span>
+      </div>
+    </div>
+    
+    {exercise.images && exercise.images.length > 0 && (
+      <div className="flex gap-2 sm:w-1/3 overflow-x-auto snap-x items-center justify-center">
+        {exercise.images.map((img, i) => (
+          <img 
+            key={i} 
+            src={img} 
+            alt={`Demostración ${i + 1}`} 
+            className="w-full h-auto object-cover rounded-xl shadow-sm snap-center"
+          />
+        ))}
+      </div>
+    )}
+  </div>
+);
+
+const CircuitSection = ({ circuit }) => (
+  <div className="mb-8">
+    <div className="flex items-center justify-between mb-4">
+      <h2 className="text-2xl font-bold text-gray-800">{circuit.title}</h2>
+      <span className="bg-gray-800 text-white px-3 py-1 rounded-lg text-sm font-bold">
+        {circuit.rounds} Rondas
+      </span>
+    </div>
+    <div className="space-y-4">
+      {circuit.exercises.map((ex, index) => (
+        <ExerciseCard key={ex.id} exercise={ex} index={index} />
+      ))}
+    </div>
+  </div>
+);
+
+const App = () => {
+  const [activePhaseId, setActivePhaseId] = React.useState("phase1");
+  const [activeDayId, setActiveDayId] = React.useState(routineData[0].id);
+
+  const activePhase = phases.find(p => p.id === activePhaseId);
+  const phaseDays = activePhase.dayIds.map(id => routineData.find(d => d.id === id)).filter(Boolean);
+
+  const selectedDay = routineData.find(d => d.id === activeDayId);
+  const activeDay = selectedDay?.referenceDay
+    ? { ...selectedDay, circuits: (routineData.find(d => d.id === selectedDay.referenceDay) || selectedDay).circuits }
+    : selectedDay;
+
+  // Group days into rows of 7 (weeks)
+  const weeks = [];
+  for (let i = 0; i < phaseDays.length; i += 7) {
+    weeks.push(phaseDays.slice(i, i + 7));
+  }
+
+  return (
+    <div className="min-h-screen pb-12">
+      <Header />
+      <main className="max-w-3xl mx-auto px-4">
+
+        {/* Phase Selector */}
+        <div className="flex gap-3 mb-5">
+          {phases.map(phase => (
+            <button
+              key={phase.id}
+              onClick={() => {
+                setActivePhaseId(phase.id);
+                const firstId = phase.dayIds[0];
+                if (firstId) setActiveDayId(firstId);
+              }}
+              className={`flex-1 py-3 rounded-2xl font-bold text-base transition-all ${
+                activePhaseId === phase.id
+                  ? 'bg-purple-700 text-white shadow-lg'
+                  : 'bg-white text-purple-700 border-2 border-purple-200 hover:bg-purple-50'
+              }`}
+            >
+              {phase.name}
+              {phase.dayIds.length === 0 && (
+                <span className="ml-2 text-xs opacity-60">Próximamente</span>
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* Day Grid */}
+        {phaseDays.length > 0 ? (
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 mb-6">
+            <div className="grid grid-cols-7 gap-1 mb-2">
+              {['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map(d => (
+                <div key={d} className="text-center text-[10px] font-bold text-gray-400 pb-1">{d}</div>
+              ))}
+            </div>
+            {weeks.map((week, wi) => (
+              <div key={wi} className="grid grid-cols-7 gap-1 mb-1">
+                {week.map(day => {
+                  const isWorkout = getDayType(day) === 'workout';
+                  const isActive = day.id === activeDayId;
+                  const dayNum = parseInt(day.id.match(/(\d+)$/)?.[1] || '0');
+                  return (
+                    <button
+                      key={day.id}
+                      onClick={() => setActiveDayId(day.id)}
+                      title={day.dayName}
+                      className={`aspect-square rounded-xl flex flex-col items-center justify-center font-bold transition-all ${
+                        isActive
+                          ? 'bg-purple-600 text-white shadow-md scale-105'
+                          : isWorkout
+                          ? 'bg-purple-50 text-purple-700 hover:bg-purple-100'
+                          : 'bg-gray-50 text-gray-400 hover:bg-gray-100'
+                      }`}
+                    >
+                      <span className="text-sm leading-none">{dayNum}</span>
+                      <span className="text-xs leading-none mt-0.5">{isWorkout ? '💪' : '🧘'}</span>
+                    </button>
+                  );
+                })}
+                {week.length < 7 && Array(7 - week.length).fill(null).map((_, i) => (
+                  <div key={`empty-${i}`} className="aspect-square" />
+                ))}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="bg-white rounded-2xl border-2 border-dashed border-purple-200 p-10 mb-6 text-center">
+            <span className="text-4xl mb-3 block">🚧</span>
+            <p className="text-purple-500 font-bold text-lg">Fase 2 — Próximamente</p>
+            <p className="text-gray-400 text-sm mt-1">Los días de esta fase estarán disponibles muy pronto.</p>
+          </div>
+        )}
+
+        {/* Active Day Info */}
+        {activeDay && (
+          <>
+            <div className="bg-purple-50 p-4 rounded-xl border border-purple-100 mb-6">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="font-bold text-purple-800 text-xl">{activeDay.dayName}</h2>
+                {selectedDay?.referenceDay && (
+                  <span className="bg-purple-200 text-purple-800 text-xs font-bold px-2 py-1 rounded-full">
+                    🔁 Igual al {routineData.find(d => d.id === selectedDay.referenceDay)?.dayName.split(':')[0]}
+                  </span>
+                )}
+              </div>
+              <p className="text-purple-600 text-sm flex items-start gap-2 mt-2">
+                <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                {activeDay.notes}
+              </p>
+            </div>
+
+            <div className="animate-fade-in">
+              {activeDay.circuits.length > 0 ? (
+                <>
+                  {activeDay.circuits.map(circuit => (
+                    <CircuitSection key={circuit.id} circuit={circuit} />
+                  ))}
+                  <div className="mt-8 text-center">
+                    <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform hover:scale-105 active:scale-95">
+                      ¡Completar {activeDay.dayName.split(':')[0]}!
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <div className="text-center py-16 bg-white rounded-2xl shadow-sm border border-purple-100 flex flex-col items-center justify-center">
+                  <span className="text-6xl mb-4">🧘‍♀️</span>
+                  <h3 className="text-2xl font-bold text-gray-800">¡Día Libre!</h3>
+                  <p className="text-gray-500 mt-2 max-w-sm">Aprovecha para hidratarte, estirar y permitir que tus músculos se recuperen al 100%.</p>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+      </main>
+    </div>
+  );
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+    </script>
+</body>
+</html>
+
+
+
+
